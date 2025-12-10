@@ -21,7 +21,7 @@ public class App
         String githubApiToken = System.getenv("MY_GITHUB_API_TOKEN");
         String ownerRepo = System.getenv("OWNER_REPO");
         String caiMoGuToken = System.getenv("CAI_MO_GU_TOKEN");
-        log.info("caiMoGuToken: ", caiMoGuToken)
+        log.info("caiMoGuToken: ", caiMoGuToken);
 
         int clout = CaiMoGuHelp.getClout(caiMoGuToken);
         String nickname = CaiMoGuHelp.getNickname(caiMoGuToken);
