@@ -1,53 +1,22 @@
 name: Java CI with Maven
 on:
   schedule:
-    - cron: '0 1 * * *'   # 每天 01:00 UTC 运行（注意：cron 使用 UTC）
+    - cron: '0 1 * * *'
   workflow_dispatch:
-
-permissions:
-  contents: read
-  actions: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - name: Set up JDK 1.8
         uses: actions/setup-java@v3
         with:
-          java-version: '8'
+          java-version: '8.0.382+5'
           distribution: 'temurin'
           cache: maven
-
-      - name: Check secrets presence
-        env:
-          OWNER_REPO: ${{ secrets.OWNER_REPO }}
-          CAI_MO_GU_TOKEN: ${{ secrets.CAI_MO_GU_TOKEN }}
-          MY_GITHUB_API_TOKEN: ${{ secrets.MY_GITHUB_API_TOKEN }}
-        run: |
-          echo "trigger: ${{ github.event_name }}"
-          if [ -z "${OWNER_REPO}" ]; then
-            echo "OWNER_REPO is EMPTY"
-            exit 1
-          else
-            echo "OWNER_REPO is SET"
-          fi
-
       - name: Build with Maven
         env:
-          OWNER_REPO: ${{ secrets.OWNER_REPO }}
-          CAI_MO_GU_TOKEN: ${{ secrets.CAI_MO_GU_TOKEN }}
-          MY_GITHUB_API_TOKEN: ${{ secrets.MY_GITHUB_API_TOKEN }}
-        run: mvn -B -q -Downer.repo="$OWNER_REPO" package --file pom.xml
-
-      - name: Run JAR (runs during job lifetime only)
-        run: |
-          JAR=$(ls target/*.jar | head -n1 || true)
-          if [ -z "$JAR" ]; then
-            echo "No JAR found in target/; skipping run"
-            exit 0
-          fi
-          echo "Running $JAR (will stop when job ends)"
-          java -jar "$JAR"
+          OWNER_REPO: ${{secrets.OWNER_REPO}}
+          CAI_MO_GU_TOKEN: ${{secrets.CAI_MO_GU_TOKEN}}
+          MY_GITHUB_API_TOKEN: ${{secrets.MY_GITHUB_API_TOKEN}}
+        run: mvn -B -q package --file pom.xml
