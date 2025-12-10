@@ -145,7 +145,7 @@ public class CaiMoGuHelp {
     public static int getClout(String  caiMoGuToken) {
         OkHttpClient client = OkHttpClientFactory.getInstance().getClient();
         Request request = new Request.Builder()
-                .url("https://www.caimogu.cc/user/1672343.html")
+                .url("https://www.caimogu.cc/user/2298566.html")
                 .addHeader("Host","www.caimogu.cc")
                 .addHeader("Cookie",caiMoGuToken)
                 .build();
